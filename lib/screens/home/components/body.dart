@@ -23,6 +23,7 @@ class Body extends StatelessWidget {
             "YOUR WORD IS:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          RandomWord(),
         ])));
   }
 }

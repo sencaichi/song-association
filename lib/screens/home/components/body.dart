@@ -13,7 +13,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Background(
         child: SingleChildScrollView(
             child: Column(
@@ -36,12 +36,30 @@ class RandomWord extends StatefulWidget {
 }
 
 class _RandomWordState extends State<RandomWord> {
+  static var randomWord = all[Random().nextInt(all.length)];
+
+  @override
+  void initState() {
+    super.initState();
+
+    reset();
+  }
+
+  void reset() {
+    setState(() => randomWord = all[Random().nextInt(all.length)]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Card(
-        child: Text(all[Random().nextInt(all.length)]),
+        child: Text(randomWord),
       ),
+      RoundedButton(
+          text: "GIVE ME A WORD",
+          press: () {
+            reset();
+          }),
     ]);
   }
 }
@@ -62,7 +80,7 @@ class _CountdownState extends State<Countdown> {
   void initState() {
     super.initState();
 
-    startTimer();
+    // startTimer();
     reset();
   }
 
@@ -98,10 +116,15 @@ class _CountdownState extends State<Countdown> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         buildTimeCard(time: seconds, header: 'SECONDS LEFT'),
+        RoundedButton(
+            text: "START TIMER",
+            press: () {
+              startTimer();
+            })
       ],
     );
   }

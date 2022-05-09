@@ -24,6 +24,7 @@ class Body extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           RandomWord(),
+          Countdown(),
         ])));
   }
 }
@@ -53,7 +54,19 @@ class _RandomWordState extends State<RandomWord> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Card(
-        child: Text(randomWord),
+        child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Text(
+              randomWord,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 50,
+              ),
+            )),
       ),
       RoundedButton(
           text: "GIVE ME A WORD",
@@ -107,24 +120,30 @@ class _CountdownState extends State<Countdown> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(child: buildTime()),
-      );
-
-  Widget buildTime() {
+  Widget build(BuildContext context) {
     // method to convert duration to two digits (9 -> 09);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        buildTimeCard(time: seconds, header: 'SECONDS LEFT'),
+      children: <Widget>[
+        buildTimeCard(time: seconds, header: "SECONDS LEFT"),
         RoundedButton(
             text: "START TIMER",
             press: () {
               startTimer();
-            })
+            }),
+        RoundedButton(
+            text: "STOP TIMER",
+            press: () {
+              timer?.cancel();
+            }),
+        RoundedButton(
+            text: "RESET",
+            press: () {
+              reset();
+            }),
       ],
     );
   }
@@ -141,7 +160,7 @@ class _CountdownState extends State<Countdown> {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
-              fontSize: 72,
+              fontSize: 60,
             ),
           ));
 }

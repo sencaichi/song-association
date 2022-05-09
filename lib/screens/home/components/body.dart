@@ -76,7 +76,11 @@ class _CountdownState extends State<Countdown> {
     setState(() {
       final seconds = duration.inSeconds + subSeconds;
 
-      duration = Duration(seconds: seconds);
+      if (seconds < 0) {
+        timer?.cancel();
+      } else {
+        duration = Duration(seconds: seconds);
+      }
     });
   }
 
